@@ -122,10 +122,9 @@
 
 <script>
   let resultText = '';
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwYEu3usxL5PCS4V4HM5NgeJKOu2lxHmsQW6F5y23yINXzL1Cc5BYpsE301ORNWGpWo/exec';
 
-  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw4IPKF0qBL12bNtmADhPIuEXnxwRLL2TzyTliasFmYJWTynfxlF8vxDjYi0KCaWYfA/exec';
-
-  async function generate() {
+  function generate() {
     const workType    = document.getElementById('workType').value    || 'any type of work';
     const userType    = document.getElementById('userType').value    || 'a student giving feedback to a peer';
     const outputStyle = document.getElementById('outputStyle').value || 'sentence starters and prompts to guide feedback';
@@ -133,7 +132,7 @@
     const checked     = [...document.querySelectorAll('.checkbox-grid input:checked')].map(c => c.value);
     const focusStr    = checked.length ? 'Focus especially on: ' + checked.join(', ') + '.' : '';
 
-    const prompt = 'You are an expert educator helping teachers and students give better peer feedback.\n\nGenerate ' + outputStyle + ' for ' + userType + ' on ' + workType + ' at the ' + gradeLevel + ' level.\n' + focusStr + '\n\nRequirements:\n- Language must be age-appropriate for ' + gradeLevel + '\n- Feedback should be kind, specific, and actionable (use glow and grow framing where appropriate)\n- Avoid vague phrases like good job, push for concrete observations\n- Format clearly with bold section headers using **Header** markdown\n- Keep language broad and adaptable, avoid references to specific assignments topics or subjects\n- Use placeholder-style phrasing like your peers work or this piece\n- The output should feel usable across many different classrooms and assignments without editing\n- Length: thorough but not overwhelming, 200 to 350 words';
+    const prompt = 'You are an expert educator helping teachers and students give better peer feedback. Generate ' + outputStyle + ' for ' + userType + ' on ' + workType + ' at the ' + gradeLevel + ' level. ' + focusStr + ' Requirements: Language must be age-appropriate. Feedback should be kind, specific, and actionable using glow and grow framing. Avoid vague phrases, push for concrete observations. Format with bold section headers using **Header** markdown. Keep language broad and adaptable, avoid references to specific assignments. Use placeholder phrasing like your peers work or this piece. Should be usable across many classrooms without editing. Length 200 to 350 words.';
 
     const btn        = document.getElementById('generateBtn');
     const btnText    = document.getElementById('btnText');
@@ -147,24 +146,43 @@
     errorBar.classList.remove('visible');
     resultWrap.classList.remove('visible');
 
-    try {
-      const url = APPS_SCRIPT_URL + '?prompt=' + encodeURIComponent(prompt);
-      console.log('Fetching:', url.substring(0, 100) + '...');
+    // Use JSONP to bypass CORS
+    const callbackName = 'jsonpCallback_' + Date.now();
+    const script = document.createElement('script');
 
-      const res = await fetch(url, { method: 'GET', redirect: 'follow' });
-      console.log('Response status:', res.status, res.type);
+    // Set a timeout in case something goes wrong
+    const timeout = setTimeout(function() {
+      cleanup();
+      errorBar.textContent = 'Request timed out. Please try again.';
+      errorBar.classList.add('visible');
+      btn.classList.remove('loading');
+      btn.disabled = false;
+      btnText.textContent = 'Generate My Script →';
+    }, 30000);
 
-      const text = await res.text();
-      console.log('Raw text response:', text.substring(0, 200));
+    function cleanup() {
+      clearTimeout(timeout);
+      delete window[callbackName];
+      if (script.parentNode) script.parentNode.removeChild(script);
+    }
 
-      const data = JSON.parse(text);
-      console.log('Parsed data:', data);
+    window[callbackName] = function(data) {
+      cleanup();
+      btn.classList.remove('loading');
+      btn.disabled = false;
+      btnText.textContent = 'Generate My Script →';
+
+      if (data.error) {
+        errorBar.textContent = 'Error: ' + data.error;
+        errorBar.classList.add('visible');
+        return;
+      }
 
       resultText = data.result || '';
-      console.log('Result length:', resultText.length);
-
       if (!resultText) {
-        throw new Error('Empty result returned');
+        errorBar.textContent = 'No result returned. Please try again.';
+        errorBar.classList.add('visible');
+        return;
       }
 
       resultBody.innerHTML = resultText
@@ -172,26 +190,20 @@
         .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
 
       resultWrap.classList.add('visible');
-      setTimeout(() => resultWrap.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+      setTimeout(function() { resultWrap.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+    };
 
-    } catch (err) {
-      console.error('Error:', err.message);
-      errorBar.textContent = 'Error: ' + err.message;
-      errorBar.classList.add('visible');
-    } finally {
-      btn.classList.remove('loading');
-      btn.disabled = false;
-      btnText.textContent = 'Generate My Script →';
-    }
+    script.src = APPS_SCRIPT_URL + '?callback=' + callbackName + '&prompt=' + encodeURIComponent(prompt);
+    document.head.appendChild(script);
   }
 
   function copyResult() {
     if (!resultText) return;
-    navigator.clipboard.writeText(resultText).then(() => {
+    navigator.clipboard.writeText(resultText).then(function() {
       const btn = document.getElementById('copyBtn');
       btn.textContent = 'COPIED!';
       btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = 'COPY'; btn.classList.remove('copied'); }, 2000);
+      setTimeout(function() { btn.textContent = 'COPY'; btn.classList.remove('copied'); }, 2000);
     });
   }
 </script>
