@@ -7,246 +7,45 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: #fff;
-    font-family: 'Share Tech Mono', monospace;
-    color: #1a1a1a;
-    min-height: 100vh;
-    padding: 2.5rem 1rem 4rem;
-  }
-
+  body { background: #fff; font-family: 'Share Tech Mono', monospace; color: #1a1a1a; min-height: 100vh; padding: 2.5rem 1rem 4rem; }
   header { text-align: center; margin-bottom: 2.5rem; }
-
-  .eyebrow {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.22em;
-    color: #cc0000;
-    margin-bottom: 0.6rem;
-  }
+  .eyebrow { font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; letter-spacing: 0.22em; color: #cc0000; margin-bottom: 0.6rem; }
   .eyebrow::before { content: '+ '; }
   .eyebrow::after  { content: ' +'; }
-
-  h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.4rem, 6vw, 3.6rem);
-    font-weight: 700;
-    line-height: 1.05;
-    color: #1a1a1a;
-    margin-bottom: 0.85rem;
-  }
-
-  .subtitle {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.7rem;
-    color: #555;
-    letter-spacing: 0.04em;
-    line-height: 1.7;
-    max-width: 360px;
-    margin: 0 auto;
-  }
-
-  .card {
-    background: #f5f5f5;
-    border: 1.5px solid #1a1a1a;
-    box-shadow: 5px 5px 0 #cc0000;
-    max-width: 580px;
-    margin: 0 auto 1rem;
-    padding: 2rem;
-  }
-
+  h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem, 6vw, 3.6rem); font-weight: 700; line-height: 1.05; color: #1a1a1a; margin-bottom: 0.85rem; }
+  .subtitle { font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; color: #555; letter-spacing: 0.04em; line-height: 1.7; max-width: 360px; margin: 0 auto; }
+  .card { background: #f5f5f5; border: 1.5px solid #1a1a1a; box-shadow: 5px 5px 0 #cc0000; max-width: 580px; margin: 0 auto 1rem; padding: 2rem; }
   .field { margin-bottom: 1.5rem; }
   .field:last-child { margin-bottom: 0; }
-
-  .field-label {
-    display: block;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.18em;
-    color: #1a1a1a;
-    margin-bottom: 0.5rem;
-  }
-
-  select {
-    width: 100%;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.82rem;
-    background: #fff;
-    border: 1.5px solid #1a1a1a;
-    padding: 0.75rem 2.5rem 0.75rem 1rem;
-    color: #1a1a1a;
-    appearance: none;
-    -webkit-appearance: none;
-    cursor: pointer;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23cc0000'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 1rem center;
-    transition: border-color 0.15s;
-  }
+  .field-label { display: block; font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; letter-spacing: 0.18em; color: #1a1a1a; margin-bottom: 0.5rem; }
+  select { width: 100%; font-family: 'Share Tech Mono', monospace; font-size: 0.82rem; background: #fff; border: 1.5px solid #1a1a1a; padding: 0.75rem 2.5rem 0.75rem 1rem; color: #1a1a1a; appearance: none; -webkit-appearance: none; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23cc0000'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; transition: border-color 0.15s; }
   select:focus { outline: none; border-color: #cc0000; }
-
-  .checkbox-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.6rem 1rem;
-  }
-
-  .checkbox-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.72rem;
-    cursor: pointer;
-    color: #1a1a1a;
-  }
-
-  .checkbox-item input[type="checkbox"] {
-    width: 14px; height: 14px;
-    border: 1.5px solid #1a1a1a;
-    appearance: none;
-    -webkit-appearance: none;
-    cursor: pointer;
-    flex-shrink: 0;
-    position: relative;
-    background: #fff;
-  }
-  .checkbox-item input[type="checkbox"]:checked {
-    background: #cc0000;
-    border-color: #cc0000;
-  }
-  .checkbox-item input[type="checkbox"]:checked::after {
-    content: '';
-    position: absolute;
-    left: 2px; top: 0px;
-    width: 5px; height: 8px;
-    border: 2px solid #fff;
-    border-top: none; border-left: none;
-    transform: rotate(45deg);
-  }
-
-  .btn-row {
-    display: flex;
-    gap: 0.75rem;
-    max-width: 580px;
-    margin: 0 auto;
-  }
-
-  .btn-generate {
-    flex: 1;
-    font-family: 'Playfair Display', serif;
-    font-size: 1rem;
-    font-style: italic;
-    font-weight: 700;
-    background: #cc0000;
-    color: #fff;
-    border: 1.5px solid #cc0000;
-    padding: 0.9rem 1.5rem;
-    cursor: pointer;
-    letter-spacing: 0.02em;
-    transition: background 0.15s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-  }
+  .checkbox-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem 1rem; }
+  .checkbox-item { display: flex; align-items: center; gap: 0.5rem; font-family: 'Share Tech Mono', monospace; font-size: 0.72rem; cursor: pointer; color: #1a1a1a; }
+  .checkbox-item input[type="checkbox"] { width: 14px; height: 14px; border: 1.5px solid #1a1a1a; appearance: none; -webkit-appearance: none; cursor: pointer; flex-shrink: 0; position: relative; background: #fff; }
+  .checkbox-item input[type="checkbox"]:checked { background: #cc0000; border-color: #cc0000; }
+  .checkbox-item input[type="checkbox"]:checked::after { content: ''; position: absolute; left: 2px; top: 0px; width: 5px; height: 8px; border: 2px solid #fff; border-top: none; border-left: none; transform: rotate(45deg); }
+  .btn-row { display: flex; gap: 0.75rem; max-width: 580px; margin: 0 auto; }
+  .btn-generate { flex: 1; font-family: 'Playfair Display', serif; font-size: 1rem; font-style: italic; font-weight: 700; background: #cc0000; color: #fff; border: 1.5px solid #cc0000; padding: 0.9rem 1.5rem; cursor: pointer; letter-spacing: 0.02em; transition: background 0.15s; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
   .btn-generate:hover { background: #aa0000; border-color: #aa0000; }
   .btn-generate:disabled { opacity: 0.55; cursor: not-allowed; }
-
-  .spinner {
-    display: none;
-    width: 13px; height: 13px;
-    border: 2px solid rgba(255,255,255,0.35);
-    border-top-color: #fff;
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    flex-shrink: 0;
-  }
+  .spinner { display: none; width: 13px; height: 13px; border: 2px solid rgba(255,255,255,0.35); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
   .btn-generate.loading .spinner { display: block; }
   @keyframes spin { to { transform: rotate(360deg); } }
-
-  .scroll-hint {
-    text-align: center;
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    color: #999;
-    margin-top: 1.25rem;
-  }
-
-  .result-wrap {
-    max-width: 580px;
-    margin: 2rem auto 0;
-    display: none;
-  }
+  .scroll-hint { text-align: center; font-size: 0.6rem; letter-spacing: 0.2em; color: #999; margin-top: 1.25rem; }
+  .result-wrap { max-width: 580px; margin: 2rem auto 0; display: none; }
   .result-wrap.visible { display: block; animation: fadeUp 0.35s ease; }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .result-card {
-    background: #fff;
-    border: 1.5px solid #1a1a1a;
-    box-shadow: 5px 5px 0 #1a1a1a;
-    padding: 2rem;
-  }
-
-  .result-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1.25rem;
-    padding-bottom: 1rem;
-    border-bottom: 1.5px solid #1a1a1a;
-    gap: 1rem;
-  }
-
-  .result-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: #1a1a1a;
-    line-height: 1.3;
-  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .result-card { background: #fff; border: 1.5px solid #1a1a1a; box-shadow: 5px 5px 0 #1a1a1a; padding: 2rem; }
+  .result-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 1.5px solid #1a1a1a; gap: 1rem; }
+  .result-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: #1a1a1a; line-height: 1.3; }
   .result-title span { color: #cc0000; }
-
-  .copy-btn {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    background: transparent;
-    border: 1.5px solid #1a1a1a;
-    padding: 0.35rem 0.7rem;
-    cursor: pointer;
-    color: #1a1a1a;
-    white-space: nowrap;
-    transition: all 0.15s;
-    flex-shrink: 0;
-  }
+  .copy-btn { font-family: 'Share Tech Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; background: transparent; border: 1.5px solid #1a1a1a; padding: 0.35rem 0.7rem; cursor: pointer; color: #1a1a1a; white-space: nowrap; transition: all 0.15s; flex-shrink: 0; }
   .copy-btn:hover { background: #1a1a1a; color: #fff; }
   .copy-btn.copied { background: #cc0000; border-color: #cc0000; color: #fff; }
-
-  .result-body {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.78rem;
-    line-height: 1.9;
-    color: #1a1a1a;
-    white-space: pre-wrap;
-  }
+  .result-body { font-family: 'Share Tech Mono', monospace; font-size: 0.78rem; line-height: 1.9; color: #1a1a1a; white-space: pre-wrap; }
   .result-body b { color: #cc0000; font-weight: 400; }
-
-  .error-bar {
-    max-width: 580px;
-    margin: 1rem auto 0;
-    background: #fff0f0;
-    border: 1.5px solid #cc0000;
-    padding: 0.75rem 1rem;
-    font-size: 0.72rem;
-    color: #cc0000;
-    display: none;
-  }
+  .error-bar { max-width: 580px; margin: 1rem auto 0; background: #fff0f0; border: 1.5px solid #cc0000; padding: 0.75rem 1rem; font-size: 0.72rem; color: #cc0000; display: none; }
   .error-bar.visible { display: block; }
 </style>
 </head>
@@ -259,7 +58,6 @@
 </header>
 
 <div class="card">
-
   <div class="field">
     <label class="field-label">WORK TYPE</label>
     <select id="workType">
@@ -270,7 +68,6 @@
       <option value="group work and participation">Group Work &amp; Participation</option>
     </select>
   </div>
-
   <div class="field">
     <label class="field-label">WHO IS GIVING FEEDBACK</label>
     <select id="userType">
@@ -280,7 +77,6 @@
       <option value="a group reflecting on their own collaboration">Group Self-Reflection</option>
     </select>
   </div>
-
   <div class="field">
     <label class="field-label">OUTPUT STYLE</label>
     <select id="outputStyle">
@@ -291,7 +87,6 @@
       <option value="a feedback checklist with guiding questions">Feedback Checklist</option>
     </select>
   </div>
-
   <div class="field">
     <label class="field-label">FOCUS AREAS (OPTIONAL)</label>
     <div class="checkbox-grid">
@@ -303,7 +98,6 @@
       <label class="checkbox-item"><input type="checkbox" value="teamwork and collaboration"> Teamwork</label>
     </div>
   </div>
-
 </div>
 
 <div class="btn-row">
@@ -314,7 +108,6 @@
 </div>
 
 <p class="scroll-hint">– scroll down to see your result –</p>
-
 <div class="error-bar" id="errorBar"></div>
 
 <div class="result-wrap" id="resultWrap">
@@ -330,33 +123,21 @@
 <script>
   let resultText = '';
 
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw4IPKF0qBL12bNtmADhPIuEXnxwRLL2TzyTliasFmYJWTynfxlF8vxDjYi0KCaWYfA/exec';
+
   async function generate() {
     const workType    = document.getElementById('workType').value    || 'any type of work';
     const userType    = document.getElementById('userType').value    || 'a student giving feedback to a peer';
     const outputStyle = document.getElementById('outputStyle').value || 'sentence starters and prompts to guide feedback';
-    const gradeLevel  = 'middle school (grades 6–8)';
+    const gradeLevel  = 'middle school (grades 6-8)';
     const checked     = [...document.querySelectorAll('.checkbox-grid input:checked')].map(c => c.value);
-    const focusStr    = checked.length ? `Focus especially on: ${checked.join(', ')}.` : '';
+    const focusStr    = checked.length ? 'Focus especially on: ' + checked.join(', ') + '.' : '';
 
-    const prompt = `You are an expert educator helping teachers and students give better peer feedback.
+    const prompt = 'You are an expert educator helping teachers and students give better peer feedback.\n\nGenerate ' + outputStyle + ' for ' + userType + ' on ' + workType + ' at the ' + gradeLevel + ' level.\n' + focusStr + '\n\nRequirements:\n- Language must be age-appropriate for ' + gradeLevel + '\n- Feedback should be kind, specific, and actionable (use glow and grow framing where appropriate)\n- Avoid vague phrases like good job, push for concrete observations\n- Format clearly with bold section headers using **Header** markdown\n- Keep language broad and adaptable, avoid references to specific assignments topics or subjects\n- Use placeholder-style phrasing like your peers work or this piece\n- The output should feel usable across many different classrooms and assignments without editing\n- Length: thorough but not overwhelming, 200 to 350 words';
 
-Generate ${outputStyle} for ${userType} on ${workType} at the ${gradeLevel} level.
-${focusStr}
-
-Requirements:
-- Language must be age-appropriate for ${gradeLevel}
-- Feedback should be kind, specific, and actionable (use "glow and grow" framing where appropriate)
-- Avoid vague phrases like "good job" — push for concrete observations
-- Format clearly with bold section headers using **Header** markdown
-- Keep language broad and adaptable — avoid references to specific assignments, topics, or subjects
-- Use placeholder-style phrasing like "your peer's work" or "this piece" rather than anything too specific
-- The output should feel usable across many different classrooms and assignments without editing
-- Length: thorough but not overwhelming (200–350 words)`;
-
-    const btn      = document.getElementById('generateBtn');
-    const spinner  = document.getElementById('spinner');
-    const btnText  = document.getElementById('btnText');
-    const errorBar = document.getElementById('errorBar');
+    const btn        = document.getElementById('generateBtn');
+    const btnText    = document.getElementById('btnText');
+    const errorBar   = document.getElementById('errorBar');
     const resultWrap = document.getElementById('resultWrap');
     const resultBody = document.getElementById('resultBody');
 
@@ -367,19 +148,24 @@ Requirements:
     resultWrap.classList.remove('visible');
 
     try {
-      // Paste your deployed Google Apps Script URL below
-      const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw4IPKF0qBL12bNtmADhPIuEXnxwRLL2TzyTliasFmYJWTynfxlF8vxDjYi0KCaWYfA/exec';
+      const url = APPS_SCRIPT_URL + '?prompt=' + encodeURIComponent(prompt);
+      console.log('Fetching:', url.substring(0, 100) + '...');
 
-      const res = await fetch(APPS_SCRIPT_URL + '?prompt=' + encodeURIComponent(prompt), {
-        method: 'GET',
-        redirect: 'follow'
-      });
+      const res = await fetch(url, { method: 'GET', redirect: 'follow' });
+      console.log('Response status:', res.status, res.type);
 
-      if (!res.ok) throw new Error(`API error ${res.status}`);
-      const data = await res.json();
-      console.log('Raw response:', JSON.stringify(data));
+      const text = await res.text();
+      console.log('Raw text response:', text.substring(0, 200));
+
+      const data = JSON.parse(text);
+      console.log('Parsed data:', data);
+
       resultText = data.result || '';
-      console.log('Result text:', resultText);
+      console.log('Result length:', resultText.length);
+
+      if (!resultText) {
+        throw new Error('Empty result returned');
+      }
 
       resultBody.innerHTML = resultText
         .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
@@ -389,7 +175,8 @@ Requirements:
       setTimeout(() => resultWrap.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
 
     } catch (err) {
-      errorBar.textContent = 'Something went wrong. Please try again.';
+      console.error('Error:', err.message);
+      errorBar.textContent = 'Error: ' + err.message;
       errorBar.classList.add('visible');
     } finally {
       btn.classList.remove('loading');
