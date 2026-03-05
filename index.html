@@ -377,7 +377,9 @@ Requirements:
 
       if (!res.ok) throw new Error(`API error ${res.status}`);
       const data = await res.json();
+      console.log('Raw response:', JSON.stringify(data));
       resultText = data.result || '';
+      console.log('Result text:', resultText);
 
       resultBody.innerHTML = resultText
         .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
