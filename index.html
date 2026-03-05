@@ -371,7 +371,8 @@ Requirements:
       const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw4IPKF0qBL12bNtmADhPIuEXnxwRLL2TzyTliasFmYJWTynfxlF8vxDjYi0KCaWYfA/exec';
 
       const res = await fetch(APPS_SCRIPT_URL + '?prompt=' + encodeURIComponent(prompt), {
-        method: 'GET'
+        method: 'GET',
+        redirect: 'follow'
       });
 
       if (!res.ok) throw new Error(`API error ${res.status}`);
